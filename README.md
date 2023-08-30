@@ -33,3 +33,34 @@
 ## Authors and acknowledgment - 贡献者和感谢（作者列表和鸣谢。）
 
 ## License - 版权信息（版权和许可信息（或阅读许可证）、法律声明。）
+
+#Github Action for generating a contribution graph with a snake earing your contributions.
+
+name: Generate Snake
+
+on:
+  schedule:
+    - corn:"0 0 * * *"
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on:ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      
+      - name: Generate Snake
+        uses: Platane/snk@master
+        id: snake-gif
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          gif_out_path: ./assets/github-contribution-grid-snake.gif
+          svg_out_path: ./assets/github-contribution-grid-snake.svg
+
+      - name: Push to Github
+        uses: EndBug/add-and-commit@v7.2.1
+        with:
+          branch: main
+          message: 'Generate Contribution Snake'
